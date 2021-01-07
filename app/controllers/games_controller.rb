@@ -3,7 +3,8 @@ require 'json'
 
 class GamesController < ApplicationController
   def new
-    @letters = ("a".."z").to_a.sample(9).join(" ").upcase
+    # @letters = ("a".."z").to_a.sample(9).join(" ").upcase
+    @letters = ('a'..'z').to_a.sample(9)
   end
 
   def score
@@ -27,7 +28,7 @@ class GamesController < ApplicationController
     url = "https://wagon-dictionary.herokuapp.com/#{attempt}"
     @word_result = open(url).read
     @result = JSON.parse(@word_result)
-    @result["found"] ? true : false
+    @result['found'] ? true : false
   end
 
   def in_grid?(word)
