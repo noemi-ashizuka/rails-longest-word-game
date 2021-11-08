@@ -10,6 +10,7 @@ class GamesController < ApplicationController
   def score
     @word = params[:word]
     @grid = params[:grid]
+
     cookies[:score] = 0 if cookies[:score].nil?
     points = @word.length * 2
     @output = if in_grid?(@word) && check_validity(@word)
@@ -28,7 +29,7 @@ class GamesController < ApplicationController
     url = "https://wagon-dictionary.herokuapp.com/#{attempt}"
     @word_result = open(url).read
     @result = JSON.parse(@word_result)
-    @result['found'] ? true : false
+    @result['found']
   end
 
   def in_grid?(word)
