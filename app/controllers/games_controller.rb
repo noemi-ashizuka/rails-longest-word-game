@@ -9,30 +9,34 @@ class GamesController < ApplicationController
 
   def score
     @word = params[:word]
-    @grid = params[:grid]
+    @grid = params[:letters]
 
     cookies[:score] = 0 if cookies[:score].nil?
-    points = @word.length * 2
-    @output = if in_grid?(@word) && check_validity(@word)
-                cookies[:score] = cookies[:score].to_i + points
-                "Congrats, it's a valid word. Score: #{points}! Total score: #{cookies[:score]}"
-              elsif !check_validity(@word)
-                "Sorry but #{@word} is not a valid word."
-              else
-                "Sorry but #{@word} can't be built out of #{@grid}"
-              end
+    @points = @word.length * 2
+    # @output = if in_grid?(@word) && check_validity(@word)
+    #             cookies[:score] = cookies[:score].to_i + points
+    #             "Congrats, it's a valid word. Score: #{points}! Total score: #{cookies[:score]}"
+    #           elsif !check_validity(@word)
+    #             "Sorry but #{@word} is not a valid word."
+    #           else
+    #             "Sorry but #{@word} can't be built out of #{@grid}"
+    #           end
+    @in_grid = in_grid?(@word, @grid)
+    @english_word = check_validity(@word)
+
+                 
   end
 
   private
 
   def check_validity(attempt)
     url = "https://wagon-dictionary.herokuapp.com/#{attempt}"
-    @word_result = open(url).read
-    @result = JSON.parse(@word_result)
-    @result['found']
+    word_result = open(url).read
+    result = JSON.parse(word_result)
+    result['found']
   end
 
-  def in_grid?(word)
-    word.chars.all? { |letter| word.count(letter) <= @grid.downcase.count(letter) }
+  def in_grid?(word, grid)
+    word.chars.all? { |letter| word.count(letter) <= grid.downcase.count(letter) }
   end
 end

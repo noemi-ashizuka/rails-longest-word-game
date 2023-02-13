@@ -1,7 +1,16 @@
 <div class="m-5">
   <h1>Result</h1>
 
-  <h2><%= @output %></h2>
+  <% if @in_grid %>
+    <% if @english_word %>
+    <% cookies[:score] = cookies[:score].to_i + @points %>
+      <h2>Congrats, it's a valid word. Score:<%= @points %>! Total score: <%= cookies[:score] %></h2>
+    <% else %>
+      <h2>Sorry but <%= @word %> is not an english word.</h2>
+    <% end %>
+  <% else %>
+      <h2>Sorry but <%= @word %> can't be built out of <%= @grid %></h2>
+  <% end %>
 
   <%= link_to "Play again", new_path %>
 </div>
