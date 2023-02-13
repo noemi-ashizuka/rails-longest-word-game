@@ -13,6 +13,9 @@ class GamesController < ApplicationController
 
     cookies[:score] = 0 if cookies[:score].nil?
     @points = @word.length * 2
+    @in_grid = in_grid?(@word, @grid)
+    @english_word = check_validity(@word)
+
     # @output = if in_grid?(@word) && check_validity(@word)
     #             cookies[:score] = cookies[:score].to_i + points
     #             "Congrats, it's a valid word. Score: #{points}! Total score: #{cookies[:score]}"
@@ -21,10 +24,6 @@ class GamesController < ApplicationController
     #           else
     #             "Sorry but #{@word} can't be built out of #{@grid}"
     #           end
-    @in_grid = in_grid?(@word, @grid)
-    @english_word = check_validity(@word)
-
-                 
   end
 
   private
